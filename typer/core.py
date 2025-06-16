@@ -212,6 +212,10 @@ def _main(
             if not standalone_mode:
                 raise
             # Typer override
+            if isinstance(e, click.UsageError) and \
+                   getattr(self, "no_args_is_help", False) and \
+                   not str(e):
+                sys.exit(0)
             if rich and rich_markup_mode is not None:
                 rich_utils.rich_format_error(e)
             else:
